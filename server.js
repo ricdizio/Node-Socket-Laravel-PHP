@@ -56,7 +56,7 @@ io.use(function(socket, next) {
     if (decoded) {
         
         // everything went fine - save userId as property of given connection instance
-        socket.usuario = decoded.usuario // Guardamos usuario
+        socket.usuario = decoded.user // Save user in socket obj
         return next();
 
     } else {
@@ -74,12 +74,12 @@ io.use(function(socket, next) {
 io.on('connection', function(socket) {
 
     //socket.join('usuario.' + socket.usuario);
-    console.log("Se conecto el usuario: " + socket.usuario + " socket.id " +  socket.id);
+    console.log("User: " + socket.user + " connected with socket.id " +  socket.id);
   
-    //Push socket id y usuario en map
-    usersSoketsId.set(socket.usuario,socket.id);
+    //Push socket id and user in usermap
+    usersSoketsId.set(socket.user,socket.id);
 
-    console.log("se agrego al map de usuarios " + usersSoketsId.get(socket.usuario));
+    console.log("added user to mapUsers: " + usersSoketsId.get(socket.user));
 
 
   /**********************************/
@@ -88,17 +88,17 @@ io.on('connection', function(socket) {
   
     socket.on('disconnect', function () {
   
-      let toRemove = socket.usuario;
+      let toRemove = socket.user;
       
-      console.log("usuario: " + toRemove +" con socket.id " + socket.id +" se desconecto");
+      console.log("user: " + toRemove +" with socket.id " + socket.id +" is disconnect");
   
-      //delete socket id y usuario en map
+      //delete socket id and user in usermap
       try{
         usersSoketsId.delete(toRemove);
-        console.log("usuario removido con socket id " + socket.id + " se removio con éxito");
+        console.log("user was removed with socket id " + socket.id);
       }
       catch{
-        console.log("error al eliminar usuario del user socket id map")
+        console.log("error to try delete user in the userMap")
       }
       
       socket.conn.close();
@@ -122,26 +122,26 @@ redisClient.on('message',function(channel, data){
     //Extraemos Usuario del evento
     let userOfEvent = data.usuario;
   
-    console.log("Evento recibido de laravel " + channel + " para el usuario " + userOfEvent );
+    console.log("Event recived from laravel " + channel + " to user " + userOfEvent );
   
     let sId = usersSoketsId.get(userOfEvent);
   
-    //Si no esta conectado
+    //User is not connected
     if(sId)
     {
-      console.log("notificacion para: " + userOfEvent);
+      console.log("Notification for: " + userOfEvent);
   
       // sending to individual socketid (private message)
 
       io.sockets.connected[sId].emit('newNotification', eventNotPopUp ,function (callback) {
-        console.log("el mensaje llego");
-        eventNotPopUp.entregado = true;
+        console.log("messege arrived");
+        eventNotPopUp.delivered = true;
       });
       
     }
     else
     {
-      console.log("usuario no conectado");
-      eventNotPopUp.entregado = false;
+      console.log("User is not connected");
+      eventNotPopUp.delivered = false;
     }
 });
