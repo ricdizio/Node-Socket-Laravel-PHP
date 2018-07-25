@@ -22,9 +22,9 @@ try
 
 	var socket = io.connect(APP_CONFIG.s_url, { allowUpgrades: true, secure: false, query: 'jwt=' + APP_CONFIG.token});
 
-    socket.on('connected', ()=> {
-        console.log("Connected to the server");
-    });
+	socket.on('connected', ()=> {
+		console.log("Connected to the server");
+	});
 
 	socket.on('newNotification', (data,callback)=>{
 
