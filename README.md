@@ -12,10 +12,10 @@ This project is a example of how to implement a broadcast messege from laravel o
 
 3- Subscribe to "messege" channel from node js server
 
-4- Publish a messege in channel "messege" from php file using:
+4- Publish a messege in channel "message" from php file using:
 <br>
 <br>
-  <code>Redis::connection()->publish( 'message',"Messege to broadcast with sockets");</code>
+  <code>Redis::connection()->publish( 'message',"Message to broadcast with sockets");</code>
 <br>
 <br>
 5- Use Event Redis.on("messege") in node js to emit a socket event with the data messege
