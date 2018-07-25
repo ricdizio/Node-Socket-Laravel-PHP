@@ -17,5 +17,6 @@ This project is a example of how to implement a broadcast messege from laravel o
 <br>
   <code>Redis::connection()->publish( 'message',"Messege to broadcast with sockets");</code>
 <br>
+<br>
 5- Use Event Redis.on("messege") in node js to emit a socket event with the data messege
  
