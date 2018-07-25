@@ -126,10 +126,10 @@ redisClient.on('message',function(channel, data){
   
     let sId = usersSoketsId.get(userOfEvent);
   
-    //User is not connected
+    //User is connected
     if(sId)
     {
-      console.log("Notification for: " + userOfEvent);
+      console.log("Notification to: " + userOfEvent);
   
       // sending to individual socketid (private message)
 
@@ -139,6 +139,8 @@ redisClient.on('message',function(channel, data){
       });
       
     }
+
+    //User is not connected
     else
     {
       console.log("User is not connected");
